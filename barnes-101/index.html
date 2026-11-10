@@ -1,1 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#0d1117] text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge Electrical & Solar - Client Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QR Code Generator Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        edge: {
+                            orange: '#f36f21',
+                            cyan: '#00b4d8',
+                            darkBg: '#0d1117',
+                            cardBg: '#161b22',
+                            cardBorder: '#21262d',
+                            hoverBg: '#1c2128'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
 
+        /* Exact Logo Outer Glow Effect */
+        .brand-logo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.45), 0 0 10px rgba(0, 180, 216, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .brand-logo:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.6), 0 0 15px rgba(243, 111, 33, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col justify-between bg-[#0d1117] text-slate-100 selection:bg-edge-orange selection:text-white">
+
+    <!-- MAIN WRAPPER -->
+    <div class="max-w-3xl mx-auto px-4 py-10 w-full flex-grow flex flex-col items-center">
+
+        <!-- BRANDING HEADER -->
+        <header class="flex flex-col items-center text-center space-y-5 mb-8 w-full">
+            <!-- Exact Uploaded Logo Image with Outer Glow -->
+            <div class="relative">
+                <img src="logo.png" alt="Edge Electrical & Solar Logo" class="brand-logo">
+            </div>
+
+            <!-- Dynamic Status Pill Badge -->
+            <div id="statusBadge" class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-medium bg-[#161b22] border border-edge-orange/40 text-slate-200">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span id="statusBadgeText">Loading Quote Validity...</span>
+            </div>
+
+            <!-- Title & Subtitle -->
+            <div class="space-y-2">
+                <h1 id="portalTitle" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Information & Proposal Hub</h1>
+                <p id="portalSubText" class="text-slate-400 text-sm max-w-lg mx-auto">
+                    Access system documentation, project proposal, product datasheets, and warranty documentation for your installation.
+                </p>
+            </div>
+        </header>
+
+        <!-- ACTIVE QUOTE / PROPOSAL CONTENT VIEW -->
+        <div id="activeQuoteView" class="w-full space-y-6">
+            
+            <!-- Category Navigation Tabs -->
+            <div class="flex border-b border-[#21262d] space-x-2 sm:space-x-4 overflow-x-auto pb-1 text-xs sm:text-sm font-semibold justify-center">
+                <button onclick="switchTab('proposal')" id="tab-proposal" class="tab-btn px-4 py-2 text-edge-orange border-b-2 border-edge-orange transition flex items-center gap-2">
+                    <i class="fa-solid fa-file-invoice text-edge-orange"></i> Proposal & Quote
+                </button>
+                <button onclick="switchTab('datasheets')" id="tab-datasheets" class="tab-btn px-4 py-2 text-slate-400 hover:text-slate-200 border-b-2 border-transparent transition flex items-center gap-2">
+                    <i class="fa-solid fa-microchip text-edge-cyan"></i> Component Datasheets
+                </button>
+                <button onclick="switchTab('handover')" id="tab-handover" class="tab-btn px-4 py-2 text-slate-400 hover:text-slate-200 border-b-2 border-transparent transition flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-emerald-400"></i> Compliance & Terms
+                </button>
+            </div>
+
+            <!-- TAB 1: PROPOSAL & QUOTE -->
+            <div id="content-proposal" class="tab-content space-y-4">
+                <div class="bg-[#161b22] border border-[#21262d] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-slate-700 transition">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-edge-orange/10 text-edge-orange border border-edge-orange/20 flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white">System Proposal & Estimate</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Complete quote breakdown, roof design, and energy production analysis.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <a href="docs/quote-proposal.pdf" class="pdf-link w-full sm:w-auto text-center px-4 py-2 bg-edge-orange hover:bg-orange-600 text-white font-semibold text-xs rounded-xl transition flex items-center justify-center gap-2">
+                            <span>View Proposal</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-[#161b22] border border-[#21262d] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-slate-700 transition">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-edge-cyan/10 text-edge-cyan border border-edge-cyan/20 flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Financial ROI & Output Summary</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Estimated annual savings, grid offset calculation, and payback timeline.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <a href="docs/roi-summary.pdf" class="pdf-link w-full sm:w-auto text-center px-4 py-2 bg-[#21262d] hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-xl border border-slate-700 transition flex items-center justify-center gap-2">
+                            <span>View Summary</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: COMPONENT DATASHEETS -->
+            <div id="content-datasheets" class="tab-content hidden space-y-4">
+                <!-- Inverter -->
+                <div class="bg-[#161b22] border border-[#21262d] rounded-2xl p-4 flex items-center justify-between gap-3 hover:border-slate-700 transition">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-white">Solar Inverter Datasheet</h4>
+                            <p class="text-xs text-slate-400">Technical specifications and warranty terms</p>
+                        </div>
+                    </div>
+                    <a href="docs/inverter-datasheet.pdf" class="pdf-link px-3.5 py-2 bg-[#21262d] hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center gap-1.5">
+                        <span>Open PDF</span> <i class="fa-solid fa-arrow-down-long text-[10px]"></i>
+                    </a>
+                </div>
+
+                <!-- Battery Storage -->
+                <div class="bg-[#161b22] border border-[#21262d] rounded-2xl p-4 flex items-center justify-between gap-3 hover:border-slate-700 transition">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fa-solid fa-car-battery"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-white">Lithium Battery Storage Specs</h4>
+                            <p class="text-xs text-slate-400">Capacity ratings, cycle life & safety details</p>
+                        </div>
+                    </div>
+                    <a href="docs/battery-datasheet.pdf" class="pdf-link px-3.5 py-2 bg-[#21262d] hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center gap-1.5">
+                        <span>Open PDF</span> <i class="fa-solid fa-arrow-down-long text-[10px]"></i>
+                    </a>
+                </div>
+
+                <!-- Solar Panels -->
+                <div class="bg-[#161b22] border border-[#21262d] rounded-2xl p-4 flex items-center justify-between gap-3 hover:border-slate-700 transition">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fa-solid fa-solar-panel"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-white">Tier-1 Solar Panel Datasheet</h4>
+                            <p class="text-xs text-slate-400">High efficiency module specs & linear output guarantee</p>
+                        </div>
+                    </div>
+                    <a href="docs/panel-datasheet.pdf" class="pdf-link px-3.5 py-2 bg-[#21262d] hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center gap-1.5">
+                        <span>Open PDF</span> <i class="fa-solid fa-arrow-down-long text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- TAB 3: HANDOVER & COMPLIANCE -->
+            <div id="content-handover" class="tab-content hidden space-y-4">
+                <div class="bg-[#161b22] border border-[#21262d] rounded-2xl p-4 flex items-center justify-between gap-3 hover:border-slate-700 transition">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fa-solid fa-file-contract"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-white">Terms of Service & Installation Guide</h4>
+                            <p class="text-xs text-slate-400">Standard electrical install practices & warranty conditions</p>
+                        </div>
+                    </div>
+                    <a href="docs/terms.pdf" class="pdf-link px-3.5 py-2 bg-[#21262d] hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center gap-1.5">
+                        <span>Open PDF</span> <i class="fa-solid fa-arrow-down-long text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- EXPIRED QUOTE OVERLAY VIEW -->
+        <div id="expiredQuoteView" class="hidden w-full py-8 text-center space-y-6">
+            <div class="w-16 h-16 bg-red-500/10 text-red-400 rounded-full border border-red-500/20 flex items-center justify-center text-3xl mx-auto shadow-lg">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div class="space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">This Quote Link Has Expired</h2>
+                <p class="text-slate-400 text-sm max-w-md mx-auto">
+                    To ensure accurate pricing with current equipment supply and rebate rates, this link expired on 
+                    <span id="expiredDateDisplay" class="text-edge-orange font-bold"></span>.
+                </p>
+            </div>
+            
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a href="tel:+27410000000" class="w-full sm:w-auto px-6 py-2.5 bg-edge-orange hover:bg-orange-600 text-white font-bold text-sm rounded-xl transition shadow flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-phone"></i> Call Edge Electrical & Solar
+                </a>
+                <a href="mailto:info@edgeelectricalsolar.co.za?subject=Requesting%20Quote%20Extension" class="w-full sm:w-auto px-6 py-2.5 bg-[#161b22] hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-sm rounded-xl transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-envelope"></i> Request Updated Link
+                </a>
+            </div>
+        </div>
+
+        <!-- SUBTLE DIVIDER (MATCHING SCREENSHOT) -->
+        <div class="w-full border-t border-[#21262d] my-8"></div>
+
+        <!-- FOOTER & CONTACT SECTION (MATCHING SCREENSHOT LAYOUT) -->
+        <footer class="w-full text-center space-y-4">
+            <div>
+                <h4 class="text-sm font-bold text-white tracking-wide">Edge Electrical & Solar</h4>
+                <p class="text-xs text-slate-400">Port Elizabeth (Gqeberha), South Africa</p>
+            </div>
+
+            <div>
+                <a href="tel:+27410000000" class="inline-flex items-center px-5 py-2.5 bg-[#161b22] hover:bg-[#1c2128] text-slate-200 border border-[#21262d] rounded-xl text-xs font-semibold transition">
+                    Call Technical Support
+                </a>
+            </div>
+
+            <!-- Staff Tool Toggle -->
+            <div class="pt-4">
+                <button id="toggleStaffToolBtn" class="text-[11px] text-slate-500 hover:text-edge-orange transition flex items-center justify-center gap-1 mx-auto">
+                    <i class="fa-solid fa-qrcode"></i> Staff Expiry QR Generator <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                </button>
+            </div>
+
+            <!-- STAFF GENERATOR DRAWER -->
+            <div id="staffToolDrawer" class="hidden bg-[#161b22] border border-[#21262d] rounded-2xl p-5 text-left space-y-4 mt-4">
+                <h5 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-edge-orange"></i> Edge Staff Folder QR Creator
+                </h5>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">Expiry Date</label>
+                        <input type="date" id="inputExpiryDate" class="w-full bg-[#0d1117] border border-[#21262d] rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-edge-orange">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">Preset Options</label>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="setPresetDays(14)" class="flex-1 bg-[#0d1117] hover:bg-slate-800 text-[11px] py-1.5 rounded-xl text-slate-300 border border-[#21262d]">14 Days</button>
+                            <button type="button" onclick="setPresetDays(30)" class="flex-1 bg-[#0d1117] hover:bg-slate-800 text-[11px] py-1.5 rounded-xl text-slate-300 border border-[#21262d]">30 Days</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-slate-400 mb-1">Generated URL for Folder QR</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="outputGeneratedUrl" readonly class="w-full bg-[#0d1117] border border-[#21262d] rounded-xl px-3 py-1.5 text-xs text-edge-orange font-mono focus:outline-none">
+                        <button type="button" onclick="copyGeneratedUrl()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs text-white rounded-xl border border-slate-700">Copy</button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center pt-2 space-y-2">
+                    <div id="qrcode" class="bg-white p-2.5 rounded-xl"></div>
+                    <button type="button" onclick="downloadQRCode()" class="px-3 py-1 bg-edge-orange text-white text-xs font-semibold rounded-lg hover:bg-orange-600 transition">
+                        Download QR Image
+                    </button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JAVASCRIPT CODE -->
+    <script>
+        // 1. Tab Switching Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-edge-orange', 'border-edge-orange');
+                btn.classList.add('text-slate-400', 'border-transparent');
+            });
+
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.remove('text-slate-400', 'border-transparent');
+            activeBtn.classList.add('text-edge-orange', 'border-edge-orange');
+        }
+
+        // 2. Mobile Detection and PDF Handler Optimization
+        function optimizePdfLinks() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const pdfLinks = document.querySelectorAll('.pdf-link');
+
+            pdfLinks.forEach(link => {
+                if (isMobile) {
+                    link.setAttribute('download', '');
+                    const label = link.querySelector('span');
+                    if(label) label.textContent = 'Download';
+                } else {
+                    link.setAttribute('target', '_blank');
+                    link.setAttribute('rel', 'noopener noreferrer');
+                }
+            });
+        }
+
+        // 3. Date & Expiration Handler
+        function evaluateQuoteExpiration() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const expiresParam = urlParams.get('expires');
+            const clientParam = urlParams.get('client');
+
+            if (clientParam) {
+                document.getElementById('portalTitle').textContent = `${decodeURIComponent(clientParam)} Proposal`;
+            }
+
+            const activeView = document.getElementById('activeQuoteView');
+            const expiredView = document.getElementById('expiredQuoteView');
+            const statusBadgeText = document.getElementById('statusBadgeText');
+            const expiredDateDisplay = document.getElementById('expiredDateDisplay');
+
+            let expiryDate;
+            if (expiresParam) {
+                expiryDate = isNaN(expiresParam) ? new Date(expiresParam) : new Date(parseInt(expiresParam) * 1000);
+            } else {
+                const defaultDate = new Date();
+                defaultDate.setDate(defaultDate.getDate() + 30);
+                expiryDate = defaultDate;
+            }
+
+            const now = new Date();
+            now.setHours(0,0,0,0);
+            
+            const dateStr = expiryDate.toLocaleDateString('en-ZA', { year: 'numeric', month: 'short', day: 'numeric' });
+
+            if (isNaN(expiryDate.getTime()) || now > expiryDate) {
+                activeView.classList.add('hidden');
+                expiredView.classList.remove('hidden');
+                expiredDateDisplay.textContent = dateStr !== 'Invalid Date' ? dateStr : 'Specified Expiry Date';
+                statusBadgeText.innerHTML = `<span class="text-red-400 font-semibold">Quote Expired (${dateStr})</span>`;
+            } else {
+                activeView.classList.remove('hidden');
+                expiredView.classList.add('hidden');
+
+                const diffDays = Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24));
+                statusBadgeText.innerHTML = `<span class="text-emerald-400 font-semibold">Valid Quote (${diffDays} days left)</span>`;
+            }
+        }
+
+        // 4. QR Generator Logic
+        function initStaffGenerator() {
+            const toggleBtn = document.getElementById('toggleStaffToolBtn');
+            const drawer = document.getElementById('staffToolDrawer');
+            const dateInput = document.getElementById('inputExpiryDate');
+
+            toggleBtn.addEventListener('click', () => drawer.classList.toggle('hidden'));
+
+            const defaultExp = new Date();
+            defaultExp.setDate(defaultExp.getDate() + 14);
+            dateInput.value = defaultExp.toISOString().split('T')[0];
+
+            dateInput.addEventListener('change', generateStaffUrl);
+            generateStaffUrl();
+        }
+
+        function setPresetDays(days) {
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + days);
+            document.getElementById('inputExpiryDate').value = targetDate.toISOString().split('T')[0];
+            generateStaffUrl();
+        }
+
+        function generateStaffUrl() {
+            const dateVal = document.getElementById('inputExpiryDate').value;
+            const outputInput = document.getElementById('outputGeneratedUrl');
+            const baseUrl = window.location.origin + window.location.pathname;
+            
+            const finalUrl = dateVal ? `${baseUrl}?expires=${dateVal}` : baseUrl;
+            outputInput.value = finalUrl;
+            
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: finalUrl,
+                width: 110,
+                height: 110,
+                colorDark : "#0d1117",
+                colorLight : "#ffffff"
+            });
+        }
+
+        function copyGeneratedUrl() {
+            const copyText = document.getElementById('outputGeneratedUrl');
+            copyText.select();
+            document.execCommand('copy');
+            alert('Generated quote link copied to clipboard!');
+        }
+
+        function downloadQRCode() {
+            const qrImg = document.querySelector('#qrcode img');
+            const qrCanvas = document.querySelector('#qrcode canvas');
+            const imageSrc = (qrImg && qrImg.src) ? qrImg.src : (qrCanvas ? qrCanvas.toDataURL('image/png') : '');
+
+            if (imageSrc) {
+                const link = document.createElement('a');
+                link.href = imageSrc;
+                link.download = 'Edge_Quote_QR.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        window.onload = function() {
+            optimizePdfLinks();
+            evaluateQuoteExpiration();
+            initStaffGenerator();
+        };
+    </script>
+</body>
+</html>
