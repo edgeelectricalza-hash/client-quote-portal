@@ -358,16 +358,26 @@
             }
         }
 
-        // 4. QR Generator Logic
+    // 4. QR Generator Logic (Restricted to Staff URL Parameter)
         function initStaffGenerator() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isStaff = urlParams.get('staff') === 'true';
+            
             const toggleBtn = document.getElementById('toggleStaffToolBtn');
             const drawer = document.getElementById('staffToolDrawer');
             const dateInput = document.getElementById('inputExpiryDate');
 
+            // If not logged in as staff via URL parameter, completely remove the button from the page
+            if (!isStaff) {
+                if (toggleBtn) toggleBtn.style.display = 'none';
+                if (drawer) drawer.style.display = 'none';
+                return;
+            }
+
             toggleBtn.addEventListener('click', () => drawer.classList.toggle('hidden'));
 
             const defaultExp = new Date();
-            defaultExp.setDate(defaultExp.getDate() + 14);
+            defaultExp.setDate(defaultExp.setDate() + 14);
             dateInput.value = defaultExp.toISOString().split('T')[0];
 
             dateInput.addEventListener('change', generateStaffUrl);
