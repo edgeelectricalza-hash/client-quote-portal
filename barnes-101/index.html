@@ -90,8 +90,9 @@
                 </button>
             </div>
 
-            <!-- TAB 1: PROPOSAL & QUOTE -->
+<!-- TAB 1: PROPOSAL & QUOTE -->
             <div id="content-proposal" class="tab-content space-y-4">
+                <!-- System Proposal & Estimate -->
                 <div class="bg-[#161b22] border border-[#21262d] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-slate-700 transition">
                     <div class="flex items-center space-x-4">
                         <div class="w-12 h-12 rounded-xl bg-edge-orange/10 text-edge-orange border border-edge-orange/20 flex items-center justify-center text-xl flex-shrink-0">
@@ -109,6 +110,25 @@
                     </div>
                 </div>
 
+                <!-- NEW: Direct Client Quote PDF -->
+                <div class="bg-[#161b22] border border-[#21262d] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-slate-700 transition">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Official Client Quote</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Itemized pricing, hardware costs, and installation schedule.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <a href="docs/client-quote.pdf" class="pdf-link w-full sm:w-auto text-center px-4 py-2 bg-[#21262d] hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-xl border border-slate-700 transition flex items-center justify-center gap-2">
+                            <span>View Quote</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Financial ROI & Output Summary -->
                 <div class="bg-[#161b22] border border-[#21262d] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-slate-700 transition">
                     <div class="flex items-center space-x-4">
                         <div class="w-12 h-12 rounded-xl bg-edge-cyan/10 text-edge-cyan border border-edge-cyan/20 flex items-center justify-center text-xl flex-shrink-0">
